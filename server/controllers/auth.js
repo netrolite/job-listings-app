@@ -2,7 +2,8 @@ const User = require("../models/User");
 
 async function signup(req, res) {
     const user = await User.create(req.body);
-    res.status(200).json(user);
+    const token = user.createJWT();
+    res.status(200).json({ name: user.name, token });
 }
 
 async function signin(req, res) {
