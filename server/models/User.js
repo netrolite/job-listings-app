@@ -30,6 +30,10 @@ UserSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, salt);
 })
 
+UserSchema.methods.comparePasswords = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+}
+
 UserSchema.methods.createJWT = function () {
     return jwt.sign(
         { userId: this._id, name: this.name },
