@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 // routes
 const authRoute = require("./routes/auth");
+const jobsRoute = require("./routes/jobs");
 // middleware
 const errorHandler = require("./middleware/errorHandler");
 const notFound = require("./middleware/notFound");
@@ -14,6 +15,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
+app.use("/api/jobs", jobsRoute);
 
 app.get("/", (req, res) => {
     res.status(200).end();
