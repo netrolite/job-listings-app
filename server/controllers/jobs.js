@@ -9,7 +9,10 @@ async function getAllJobs(req, res, next) {
 
     let jobs = Job.find({ createdBy: userId });
 
-    if (limit > 0) jobs.limit(limit);
+    if (typeof limit === "string") {
+        throw new BadRequestErr("limit must be a number");
+    }
+    else if (limit > 0) jobs.limit(limit);
     else jobs.limit(defaultLimit);
 
     req.dataToSend = await jobs;
