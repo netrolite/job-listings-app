@@ -5,16 +5,15 @@ const { BadRequestErr } = require("../errors");
 async function getAllJobs(req, res, next) {
     const { limit } = req.body;
     const { userId } = req.user;
+    const defaultLimit = 5;
 
     let jobs = Job.find({ createdBy: userId });
-    if (typeof limit === "number" && limit > 0) {
-        jobs.limit(limit);
-    } else if (typeof limit === "string") {
-        throw new BadRequestErr("limit must be a number");
-    } else jobs.limit(5);
 
-    jobs = await jobs;
-    res.json({ resultsAmount: jobs.length, jobs });
+    if (limit > 0) jobs.limit(limit);
+    else jobs.limit(defaultLimit);
+
+    req.dataToSend = await jobs;
+    next();
 }
 
 
