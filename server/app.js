@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth");
 const jobsRoute = require("./routes/jobs");
 // middleware
 const authorize = require("./middleware/authorize");
+const sendOrThrowIfNotFound = require("./middleware/sendOrThrowIfNotFound");
 const errorHandler = require("./middleware/errorHandler");
 const notFound = require("./middleware/notFound");
 const connectDB = require("./db/connectDB");
@@ -16,7 +17,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
-app.use("/api/jobs", authorize, jobsRoute);
+app.use("/api/jobs", authorize, jobsRoute, sendOrThrowIfNotFound);
 
 app.get("/", (req, res) => {
     res.status(200).end();
