@@ -31,7 +31,10 @@ async function createJob(req, res, next) {
 
 
 async function getSingleJob(req, res, next) {
-    res.send("get single job");
+    const { jobId } = req.params;
+    const { userId } = req.user;
+    req.dataToSend = await Job.findOne({ _id: jobId, createdBy: userId });
+    next();
 }
 
 
