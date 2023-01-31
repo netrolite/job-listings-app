@@ -3,8 +3,9 @@ const { BadRequestErr } = require("../errors");
 
 function authorize(req, res, next) {
     const authHeader = req.headers.authorization;
+    const authRegex = /^Bearer .+$/i;
     console.log(authHeader);
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authRegex.test(authHeader)) {
         throw new BadRequestErr("Invalid authorization header");
     }
 
