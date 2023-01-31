@@ -39,7 +39,14 @@ async function getSingleJob(req, res, next) {
 
 
 async function updateJob(req, res, next) {
-    res.send("update job");
+    const { jobId } = req.params;
+    const { userId } = req.user;
+    req.dataToSend = await Job.findOneAndUpdate(
+        { _id: jobId, createdBy: userId },
+        req.body,
+        { runValidators: true, new: true }
+    )
+    next();
 }
 
 
