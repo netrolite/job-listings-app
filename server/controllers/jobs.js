@@ -23,10 +23,11 @@ async function getAllJobs(req, res, next) {
 async function createJob(req, res, next) {
     const { company, position, status } = req.body;
     const { userId } = req.user;
-    const job = await Job.create({
+
+    req.dataToSend = await Job.create({
         company, position, status, createdBy: userId
     })
-    res.status(201).json(job);
+    next();
 }
 
 
@@ -51,7 +52,10 @@ async function updateJob(req, res, next) {
 
 
 async function deleteJob(req, res, next) {
-    res.send("delete job");
+    const { jobId } = req.params;
+    const { userId } = req.user;
+    req.dataToSend = await Job.findOneAndDelete({ _id: jobId, createdBy: userId });
+    next();
 }
 
 
