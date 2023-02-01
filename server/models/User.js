@@ -43,5 +43,6 @@ UserSchema.methods.createJWT = function () {
 }
 
 
+// all middleware must be defined before compiling the model as below
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

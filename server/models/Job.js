@@ -25,5 +25,7 @@ const JobSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
+
+// all middleware must be defined before compiling the model as below
 const Job = mongoose.model("Job", JobSchema);
 module.exports = Job;
