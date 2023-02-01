@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { BadRequestErr } = require("../errors");
+const { BadRequestErr, UnauthorizedErr } = require("../errors");
+
 
 function authorize(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -10,8 +11,18 @@ function authorize(req, res, next) {
     }
 
     const token = authHeader.split(" ")[1];
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decodeToken(token);
     next();
 }
+
+
+function decodeToken(token) {
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+        throw new UnauthorizedErr()
+    }
+}
+
 
 module.exports = authorize;
