@@ -7,6 +7,12 @@ const JobSchema = new mongoose.Schema({
         required: true,
         maxlength: 200
     },
+    companyRating: {
+        type: Number,
+        min: 1,
+        max: 5,
+        default: null
+    },
     position: {
         type: String,
         required: true,

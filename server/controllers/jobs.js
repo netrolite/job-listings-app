@@ -21,11 +21,11 @@ async function getAllJobs(req, res, next) {
 
 
 async function createJob(req, res, next) {
-    const { company, position, status } = req.body;
+    const { company, companyRating, position, status } = req.body;
     const { userId } = req.user;
 
     req.dataToSend = await Job.create({
-        company, position, status, createdBy: userId
+        company, companyRating, position, status, createdBy: userId
     })
     next();
 }
@@ -34,6 +34,7 @@ async function createJob(req, res, next) {
 async function getSingleJob(req, res, next) {
     const { jobId } = req.params;
     const { userId } = req.user;
+
     req.dataToSend = await Job.findOne({ _id: jobId, createdBy: userId });
     next();
 }
@@ -42,6 +43,7 @@ async function getSingleJob(req, res, next) {
 async function updateJob(req, res, next) {
     const { jobId } = req.params;
     const { userId } = req.user;
+
     req.dataToSend = await Job.findOneAndUpdate(
         { _id: jobId, createdBy: userId },
         req.body,
@@ -54,6 +56,7 @@ async function updateJob(req, res, next) {
 async function deleteJob(req, res, next) {
     const { jobId } = req.params;
     const { userId } = req.user;
+
     req.dataToSend = await Job.findOneAndDelete({ _id: jobId, createdBy: userId });
     next();
 }
